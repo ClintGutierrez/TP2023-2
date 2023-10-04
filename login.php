@@ -23,6 +23,7 @@ if($_POST){
             $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['tipo_usuario'] = $row['tipo_usuario'];
             $_SESSION['id'] = $row['id'];
+            #Clint hara toda la progra
 
             header("Location: index.php");
         }else{
