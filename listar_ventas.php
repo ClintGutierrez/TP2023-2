@@ -1,6 +1,11 @@
 <?php
 require_once "vistas/parte_superior.php"
 ?>
+<?php
+$mysqli = include_once "conexion.php";
+$resultado = $mysqli->query("SELECT codigo, cliente, tipo_doc, numero_doc, fecha, monto FROM listar_ventas");
+$listar_ventas = $resultado->fetch_all(MYSQLI_ASSOC);
+?>
 <!--INICIO CONT PRINCIPAL-->
 <div class="container">
     <h1>Listar Ventas</h1>
@@ -12,42 +17,37 @@ require_once "vistas/parte_superior.php"
 </br>
     
     <div class="table-responsive">
-        <table class="table table-bordered table-striped" id="datos-ventas">
-            <thead class="table table-danger">
+        <table id="datos-ventas" class="table table-bordered table-striped" >
+            <thead>
                 <tr>
-                    <th scope="col">Código</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Tipo Doc</th>
-                    <th scope="col">Numero Doc</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Monto</th>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Tipo Doc</th>
+                    <th>Numero Doc</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
                     <th>Detalle</th>
                 </tr> 
             </thead>
+            <tbody>
+                <?php
+                foreach ($listar_ventas as $listar) { ?>
+                    <tr>
+                        <td><?php echo $listar["codigo"] ?></td>
+                        <td><?php echo $listar["cliente"] ?></td>
+                        <td><?php echo $listar["tipo_doc"] ?></td>
+                        <td><?php echo $listar["numero_doc"] ?></td>
+                        <td><?php echo $listar["fecha"] ?></td>
+                        <td><?php echo $listar["monto"] ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
             
         </table>  
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        var dataTable =$('#datos-ventas').DataTable({
-            "processing":true,
-            "serverSide":true,
-            "order":[],
-            "ajax":{
-                url:"obteher_registros.php",
-                type: "POST"
-            },
-            "columnsDefs":[
-                {
-                "targets":[0,3,4],
-                "orderable":false,
-                },   
-            ]
-        });
-    });
-</script>
+
 <!--FIN DEL CONTENIDO PRINCIPAL-->
 <?php
 require_once "vistas/parte_inferior.php"
